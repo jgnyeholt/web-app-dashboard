@@ -5,17 +5,19 @@ const clearAlert = document.getElementsByClassName("alert-clear");
 const trafficOverview = document.getElementById('TrafficOverview').getContext('2d');
 const trafficOverviewTime = document.getElementsByClassName("traffic-time-context");
 const trafficSummary = document.getElementById('TrafficSummary').getContext('2d');
+const mobileUsers = document.getElementById('MobileUsers').getContext('2d');
 
 
-//Data
 let data = [ 0,500 ,1000, 1500, 1250, 1750, 2000, 1500, 2000, 2500, 2250];
 let labels = ['16-22', '23-29', '30-5', '6-12', '13-19', '20-26', '27-3', '4-10', '11-17', '18-24', '25-31'];
 
 
 document.addEventListener("DOMContentLoaded", () => {
+  //Data
+
   displayAlert();
   addAlertListener();
-  constructTrafficOverview(data, labels);
+//  constructTrafficOverview(loadData, loadLabels);
   addTrafficTimeListener();
 }); // end DOMContentLoaded
 
@@ -41,7 +43,7 @@ function addAlertListener(){
 }
 //////////////////////////////////////////////////////
 //Traffic Overview
-function constructTrafficOverview(data, labels){
+// function constructTrafficOverview(data, labels){
   let trafficChart = new Chart(trafficOverview, {
       type: 'line',
       data: {
@@ -62,6 +64,9 @@ function constructTrafficOverview(data, labels){
 
       },
       options: {
+        animation: {
+          easing: 'linear'
+        },
         responsive:true,
         maintainAspectRatio: false,
         scales: {
@@ -95,8 +100,25 @@ function constructTrafficOverview(data, labels){
         }
       } //end options
   }); //End Traffic Overview
+//}
+
+function addData(chart, label, data) {
+    let newDataLength = data.length;
+    for(let i = 0; i < newDataLength; i++){
+      chart.data.datasets[0].data.push(data[i]);
+      chart.data.labels.push(label[i]);
+    }
+    chart.update();
 }
-//assign data/labels based on selected traffic time
+
+function removeData(chart) {
+    let dataLength = chart.data.datasets[0].data.length;
+    for(let i = 0; i < dataLength; i++){
+     chart.data.datasets[0].data.pop();
+     chart.data.labels.pop();
+   }
+    chart.update();
+}
 
 
 //add event listener for traffic time
@@ -104,34 +126,35 @@ function addTrafficTimeListener(){
   for(let i = 0; i < trafficOverviewTime.length; i++){
     trafficOverviewTime[i].addEventListener("click", (e) => {
       removeClass(trafficOverviewTime, "highlight");
-
+      removeData(trafficChart);
       let event = e.target;
       let time = event.textContent;
 
       if(time === "Hourly"){
         data = [500, 510, 525, 520, 517, 545, 550, 560, 555, 570 ];
         labels = [ 'Aug 5th, 8:00', '9:00', '10:00', '11:00', '12:00', '1:00', '2:00', '3:00', '4:00', '5:00'];
-        constructTrafficOverview(data, labels);
+        addData(trafficChart, labels, data);
         event.classList.add("highlight");
       } else if (time === "Daily"){
-        data = [500, 580, 630, 615, 680, 700, 745, 715, 750, 800 ];
+        data = [500, 630, 615, 680, 745, 715, 750 ];
         labels = [ 'S (8/5)', 'M (8/6)', 'T (8/7)', 'W (8/8)', 'R (8/9)', 'F (8/10)', 'S (8/11)'];
         event.classList.add("highlight");
-        constructTrafficOverview(data, labels);
+        addData(trafficChart, labels, data);
       } else if (time === "Weekly"){
         data = [ 0,500 ,1000, 1500, 1250, 1750, 2000, 1500, 2000, 2500, 2250];
         labels = ['16-22', '23-29', '30-5', '6-12', '13-19', '20-26', '27-3', '4-10', '11-17', '18-24', '25-31'];
-        constructTrafficOverview(data, labels);
         event.classList.add("highlight");
+            addData(trafficChart, labels, data);
       } else if (time === "Monthly"){
         data = [ 2000, 3100, 2400, 3200, 4500, 4900, 3700, 5100, 5500, 5000, 6100, 6250];
         labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
-        constructTrafficOverview(data, labels);
         event.classList.add("highlight");
+        addData(trafficChart, labels, data);
       }
-    });
-  }
-}
+      trafficChart.update();
+    }); //end event listener
+  } //end for loop
+} //end function
 
 function removeClass(array, CSSclass){
   for(let i = 0; i < array.length; i++){
@@ -153,6 +176,7 @@ var trafficSummaryChart = new Chart(trafficSummary, {
         }]
     },
     options: {
+      responsive:true,
       legend: {
         display:false
       },
@@ -187,4 +211,35 @@ var trafficSummaryChart = new Chart(trafficSummary, {
         }]
       } //end scales
     } //end options
-}); end
+});
+
+
+////////////////////////////////////////////
+//Mobile USERS
+
+var mobileUsersChart = new Chart(mobileUsers, {
+    type: 'doughnut',
+    data: {
+        labels: ['Phones', 'Tablets', 'Desktop'],
+        datasets: [{
+            data: [25, 15 ,60],
+            backgroundColor: [
+                '#74b1bf',
+                '#81c98f',
+                '#7377bf',
+            ],
+        }]
+    },
+    options: {
+      responsive:true,
+
+      legend: {
+            position: 'right',
+            labels: {
+              padding: 20,
+              boxWidth: 15,
+              fontSize: 16
+            }
+        },
+    } // end options
+}); // end mobile users

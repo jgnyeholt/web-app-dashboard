@@ -2,6 +2,8 @@
 $color-primary-blue: #7477bf;
 $color-primary-green: #81c98f;
 $color-primary-purple: #7377bf;
+$color-primary-cyan: #74b1bf;
+
 $color-secondary-blue: #4d4c72;
 
 $color-offWhite: #fbfbfb;
@@ -178,6 +180,25 @@ body{
     padding: 2em;
     &:nth-of-type(1){
       border-right: 1px solid $color-grey-light;
+    }
+  }
+}
+
+.social-stats{
+  padding: 1.5em;
+  .social-widget-container{
+    display: flex;
+    flex-wrap: wrap;
+    div{
+      width: 30%;
+      min-width: 250px;
+
+      height: 12vh;
+      background-color: blue;
+      margin: auto;
+      &:nth-of-type(1){
+        margin-left: 0;
+      }
     }
   }
 }
