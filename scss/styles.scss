@@ -171,8 +171,11 @@ body{
   border-collapse: collapse;
   border-bottom: 1px solid $color-grey-light;
   div{
+    h3{
+      padding-bottom: 1em;
+    }
     width: 50%;
-    padding: 1.5em;
+    padding: 2em;
     &:nth-of-type(1){
       border-right: 1px solid $color-grey-light;
     }

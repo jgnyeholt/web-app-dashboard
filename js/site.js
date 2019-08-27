@@ -4,6 +4,7 @@ const alertText = document.getElementsByClassName("alert-text");
 const clearAlert = document.getElementsByClassName("alert-clear");
 const trafficOverview = document.getElementById('TrafficOverview').getContext('2d');
 const trafficOverviewTime = document.getElementsByClassName("traffic-time-context");
+const trafficSummary = document.getElementById('TrafficSummary').getContext('2d');
 
 
 //Data
@@ -38,9 +39,10 @@ function addAlertListener(){
     });
   }
 }
-
+//////////////////////////////////////////////////////
+//Traffic Overview
 function constructTrafficOverview(data, labels){
-  var myChart = new Chart(trafficOverview, {
+  let trafficChart = new Chart(trafficOverview, {
       type: 'line',
       data: {
           labels: labels,
@@ -65,7 +67,6 @@ function constructTrafficOverview(data, labels){
         scales: {
           yAxes: [{
             ticks: {
-              // stepSize: 500,
               padding: 25,
             },
             gridLines: {
@@ -74,7 +75,6 @@ function constructTrafficOverview(data, labels){
           }],
           xAxes: [{
             ticks: {
-              tickMarkLength: 0,
               padding: 15,
             },
             gridLines: {
@@ -138,3 +138,53 @@ function removeClass(array, CSSclass){
     array[i].classList.remove(CSSclass);
   }
 }
+
+///////////////////////////////////////////////
+//Traffic Summary
+
+var trafficSummaryChart = new Chart(trafficSummary, {
+    type: 'bar',
+    data: {
+        labels: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
+        datasets: [{
+            label: '',
+            data: [50, 75, 125, 100, 200, 175, 125],
+            backgroundColor: '#7377bf',
+        }]
+    },
+    options: {
+      legend: {
+        display:false
+      },
+      layout: {
+        padding: {
+          left: 5,
+          right: 15,
+          top: 5,
+          bottom: 5
+        }
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+              beginAtZero: true,
+              suggestedMax: 250,
+              padding: 25
+          },
+          gridLines: {
+            tickMarkLength: 0,
+          }
+        }],
+        xAxes: [{
+            maxBarThickness: 35,
+            BarThickness: 'flex',
+            gridLines: {
+              tickMarkLength: 0,
+            },
+            ticks: {
+              padding: 15
+            }
+        }]
+      } //end scales
+    } //end options
+}); end
