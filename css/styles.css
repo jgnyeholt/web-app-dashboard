@@ -1,6 +1,7 @@
 body {
   font-family: "Raleway", sans-serif;
   box-sizing: border-box;
+  color: #666666;
 }
 
 .container {
@@ -166,16 +167,49 @@ body {
 .social-stats .social-widget-container {
   display: flex;
   flex-wrap: wrap;
+  margin-top: 2em;
 }
-.social-stats .social-widget-container div {
-  width: 30%;
-  min-width: 250px;
+
+.social-widget {
+  border: 1px solid #CCCECF;
+  border-radius: 3px;
+  padding-right: 2em;
   height: 12vh;
-  background-color: blue;
+  background-color: #fbfbfb;
   margin: auto;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }
-.social-stats .social-widget-container div:nth-of-type(1) {
-  margin-left: 0;
+.social-widget div:first-child {
+  width: 75px;
+  height: 75px;
+  margin-left: 1em;
+  background-color: #7377bf;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+.social-widget div:last-child {
+  width: auto;
+  padding-left: 1.5em;
+}
+.social-widget div:last-child h5 {
+  margin: 0;
+  color: #7377bf;
+  font-size: 1.1em;
+  font-weight: bold;
+}
+.social-widget div:last-child p {
+  margin: 0;
+  font-size: 2.25em;
+}
+
+.social-icon {
+  fill: #fbfbfb;
+  height: 32px;
+  width: 32px;
 }
 
 /*# sourceMappingURL=styles.css.map */
