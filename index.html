@@ -6,10 +6,23 @@
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/styles.css">
     <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
   </head>
 
   <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="display:none;">
+    <!-- Notification Bell Icon -->
+    <symbol id="notificationIcon">
+      <style type="text/css">
+      	.st0{fill:#FFFFFF;}
+      </style>
+      <g id="_x36__6_">
+      	<g>
+      		<path class="st0" d="M24,18v-8c0-5.5-4.5-10-10-10S4,4.5,4,10v8l-4,8h9.1c0.5,2.3,2.5,4,4.9,4s4.4-1.7,4.9-4H28L24,18z M14,28
+      			c-1.3,0-2.4-0.8-2.8-2h5.6C16.4,27.2,15.3,28,14,28z M3,24l3-6v-8c0-4.4,3.6-8,8-8s8,3.6,8,8v8l3,6H3z"/>
+      	</g>
+      </g>
+    </symbol>
       <!-- DASHBOARD ICON -->
      <symbol id="dashboardIcon" >
        <g id="_x31_0_20_">
@@ -96,7 +109,21 @@
     <div class="container">
       <!-- header -->
       <header class="header">
-        <h1><strong>Your</strong>App</h1>
+        <h1><strong>Your</strong>App&trade;</h1>
+        <section>
+          <i class="bell fa fa-bell-o" aria-hidden="true"></i>
+          <span class="liveNotification"> </span>
+          <div class="dropdown-container">
+            <div class="dropdown-item">You have no notifications</div>
+            <div class="dropdown-item">You have 6 unread messages <i class='notification-clear fa fa-times'></i></div>
+            <div class="dropdown-item">You have 3 new followers <i class='notification-clear fa fa-times'></i></div>
+            <div class="dropdown-item">Your password expires in 7 days this ir a really really lon \g notificaion <i class='notification-clear fa fa-times'></i></div>
+          </div>
+          <div class="member-header">
+            <img src="images/member-4.jpg" />
+            <p>Josh Sullivan</p>
+          </div>
+        </section>
       </header>
       <!-- side-bar -->
       <nav class="side-nav">
@@ -204,7 +231,129 @@
           </div>
         </section>
         <!-- Members and Settings stats -->
-        <section>
+        <section class="memberTools">
+          <!-- New memebers -->
+          <div>
+            <h3>NEW MEMBERS</h3>
+            <div class="info">
+              <img src="images/member-1.jpg"/>
+              <div>
+                <h6>Victoria Chambers</h6>
+                <a href="#">victoria.chambers80@example.com</a>
+              </div>
+              <p>10/15/15</p>
+            </div>
+            <hr />
+
+            <div class="info">
+              <img src="images/member-2.jpg"/>
+              <div>
+                <h6>Dale Byrd</h6>
+                <a href="#">dale.byrd51@example.com</a>
+              </div>
+              <p>10/15/15</p>
+            </div>
+            <hr />
+
+            <div class="info">
+              <img src="images/member-3.jpg"/>
+              <div>
+                <h6>Dawn Wood</h6>
+                <a href="#">dawn.wood16@example.com</a>
+              </div>
+              <p>10/15/15</p>
+            </div>
+            <hr />
+
+            <div class="info">
+              <img src="images/member-4.jpg"/>
+              <div>
+                <h6>Dan Oliver</h6>
+                <a href="#">dan.oliver81@example.com</a>
+              </div>
+              <p>10/15/15</p>
+            </div>
+          </div> <!-- end new members -->
+
+
+          <!-- Recent Activity -->
+          <div>
+            <h3>RECENT ACTIVITY</h3>
+            <div class="info">
+              <img src="images/member-1.jpg"/>
+              <div>
+                <h6>Victoria Chambers commented on YourApp's SEO Tips</h6>
+                <p>4 hours ago</p>
+              </div>
+              <p><i class="fa fa-chevron-right" aria-hidden="true"></i></p>
+            </div>
+            <hr />
+
+            <div class="info">
+              <img src="images/member-2.jpg"/>
+              <div>
+                <h6>Dale Byrd liked the post Facebooks's Changes for 2016</h6>
+                <p>5 hours ago</p>
+              </div>
+              <p><i class="fa fa-chevron-right" aria-hidden="true"></i></p>
+            </div>
+            <hr />
+
+            <div class="info">
+              <img src="images/member-3.jpg"/>
+              <div>
+                <h6>Dawn Wood commented on Facebook's Changes for 2016</h6>
+                <p>5 hours ago</p>
+              </div>
+              <p><i class="fa fa-chevron-right" aria-hidden="true"></i></p>
+            </div>
+            <hr />
+
+            <div class="info">
+              <img src="images/member-4.jpg"/>
+              <div>
+                <h6>Dan Oliver posted YourApp's SEO Tips</h6>
+                <p>1 day ago</p>
+              </div>
+              <p><i class="fa fa-chevron-right" aria-hidden="true"></i></p>
+            </div>
+
+          </div> <!-- end recent activity -->
+
+
+          <!-- Message User -->
+          <div>
+            <h3>MESSAGE USER</h3>
+            <div class="message-container">
+              <input placeholder="Search for User" />
+              <textarea placeholder="Message for User"></textarea>
+              <input type="submit" value="SEND">
+            </div>
+
+          </div>
+          <!-- Settings -->
+          <div>
+            <h3>SETTINGS</h3>
+            <div class="settings-option">
+              <p>Send Email Notifications</p>
+              <div class="toggle-switch">
+                <div class="toggle-text">On</div> <div class="toggle-button"></div>
+              </div>
+            </div>
+            <div class="settings-option">
+              <p>Set Profile to Public</p>
+              <div class="toggle-switch">
+                <div class="toggle-text">On</div> <div class="toggle-button"></div>
+              </div>
+            </div>
+            <div class="settings-option timezone">
+                <div>Select Timezone <i class="fa fa-chevron-down" aria-hidden="true"></i></div>
+            </div>
+            <div class="settings-buttons">
+              <input type="submit" value="SAVE">
+              <input type="reset" value="CANCEL">
+            </div>
+          </div> <!-- End settings -->
 
         </section>
 
