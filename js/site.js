@@ -6,19 +6,43 @@ const trafficOverview = document.getElementById('TrafficOverview').getContext('2
 const trafficOverviewTime = document.getElementsByClassName("traffic-time-context");
 const trafficSummary = document.getElementById('TrafficSummary').getContext('2d');
 const mobileUsers = document.getElementById('MobileUsers').getContext('2d');
-
+const toggleContainer = document.getElementsByClassName('toggle-switch');
+const toggleText = document.getElementsByClassName('toggle-text');
+const toggleButton = document.getElementsByClassName('toggle-button');
+const liveNotification = document.querySelector('.liveNotification');
+const notificationBell = document.querySelector('.bell');
+const dropDown = document.querySelector('.dropdown-container');
 
 let data = [ 0,500 ,1000, 1500, 1250, 1750, 2000, 1500, 2000, 2500, 2250];
 let labels = ['16-22', '23-29', '30-5', '6-12', '13-19', '20-26', '27-3', '4-10', '11-17', '18-24', '25-31'];
 
 
-document.addEventListener("DOMContentLoaded", () => {
-  //Data
+notificationBell.addEventListener("click", () => {
+  if(dropDown.style.display !== "block"){
+    dropDown.style.display = "block";
+    let width = dropDown.offsetWidth -  notificationBell.offsetWidth;
+    let translate = "translate(-" + width + "px, 40px)";
+    dropDown.style.transform = translate;
+    dropDown.style.transition = "transform .25s";
+  }
+});
 
+document.addEventListener("click", (e) => {
+  console.log();
+  if (dropDown.style.display === "block" &&
+  !(e.target.className.includes("bell") ||
+  e.target.parentElement.className.includes("dropdown-container") ||
+  e.target.className.includes("notification-clear"))) {
+    dropDown.style.display = "none";
+    dropDown.style.transform = "translate(0, 0)";
+  }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
   displayAlert();
   addAlertListener();
-//  constructTrafficOverview(loadData, loadLabels);
   addTrafficTimeListener();
+  toggleSwitch();
 }); // end DOMContentLoaded
 
 
@@ -28,7 +52,7 @@ function displayAlert(){
   message.className = "alert-text";
   message.innerHTML = "<p><strong>Alert </strong>" +
                       alertMessageText +
-                      "</p><span class='alert-clear'>X</span>";
+                      "</p><i class='alert-clear fa fa-times' aria-hidden='true'></i>";
   alertMessage.appendChild(message);
 }
 
@@ -243,3 +267,33 @@ var mobileUsersChart = new Chart(mobileUsers, {
         },
     } // end options
 }); // end mobile users
+
+function toggleSwitch() {
+  console.log(toggleContainer);
+
+  for(let i = 0; i < toggleContainer.length; i++){
+    toggleContainer[i].addEventListener("click", (e) => {
+
+    if(toggleText[i].textContent === "On"){
+      console.log(e.target);
+      toggleButton[i].style.transform = "translateX(-43px)";
+      toggleButton[i].style.transition = ".25s";
+      toggleText[i].textContent = "Off";
+      toggleText[i].style.transform = "translateX(25px)";
+      toggleText[i].style.transition = ".25s";
+      toggleContainer[i].style.backgroundColor = "#a8aad7";
+      toggleContainer[i].style.transition = ".25s";
+
+    }
+    else if (toggleText[i].textContent === "Off"){
+      toggleButton[i].style.transform = "translateX(0)";
+      toggleButton[i].style.transition = ".25s";
+      toggleText[i].textContent = "On";
+      toggleText[i].style.transform = "translateX(0)";
+      toggleText[i].style.transition = ".25s";
+      toggleContainer[i].style.backgroundColor = "#7377bf";
+      toggleContainer[i].style.transition = ".25s";
+    }
+    });
+  }
+}
