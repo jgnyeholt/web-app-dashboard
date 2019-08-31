@@ -20,41 +20,71 @@ $layout-header: header;
 $layout-nav: nav;
 $layout-main: main;
 
+
+*{
+  box-sizing: border-box;
+}
+
 *:focus{
   outline: 2px solid $color-secondary-blue;
 }
 
+
 body{
   font-family: $font-stack-primary;
-  box-sizing: border-box;
   color: #666666;
 }
 
 .container{
   min-height: 100vh;
+  width: 100%;
   display: grid;
-  grid-template-columns: auto 1fr;
-  grid-template-rows: auto 1fr;
   grid-template-areas:
-    "header header"
-    "nav main";
+    "header"
+    "nav"
+    "main";
+
+  min-width: 0;
+  min-height: 0;
+  @media(min-width: 500px){
+    grid-template-areas:
+      "header header"
+      "nav main";
+  }
+}
+
+.capitalize{
+  text-transform: capitalize;
+}
+
+h3{
+  text-align: center;
 }
 
 .header {
   grid-area: $layout-header;
   background-color: $color-primary-blue;
-  padding: 1em;
-  display: flex;
-  justify-content: space-between;
+  padding:  1em 5px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-width: 0;
+  min-height: 0;
   h1{
     font-weight: normal;
     font-size: $font-heading;
     color: $color-offWhite;
     margin: 0;
+    padding-bottom: .5em;
+    text-align: center;
+    @media(min-width: 400px){
+      padding-bottom: 0;
+    }
   }
   section{
     width: auto;
     display: flex;
+    justify-content: center;
     .bell{
       color: $color-grey-light;
       font-size: 24px;
@@ -66,8 +96,8 @@ body{
     .liveNotification{
       border: 1px solid $color-primary-green;
       background-color: $color-primary-green;
-      height: 3px;
-      width: 3px;
+      height: 7px;
+      width: 7px;
       border-radius: 50%;
       opacity: 0;
     }
@@ -101,9 +131,8 @@ body{
             text-decoration: underline;
           }
         }
-      }
-
-    }
+      }//end dropdown-item
+    }// end dropdown-container
     .member-header{
       border-left: 1px solid rgba(0,0,0,.2);
       padding-left: 1em;
@@ -120,27 +149,64 @@ body{
         margin-left: 1em;
         color: $color-offWhite;
       }
-    }
-
+    } // end member header
   }
-
+  @media(min-width: 400px){
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
 }
 
 .side-nav{
   grid-area: $layout-nav;
   background-color: $color-secondary-blue;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+
   div{
-    padding: 1.5em;
+    padding: .5em .25em;
     border-left: 3px solid transparent;
+    border-top: 3px solid transparent;
+    border-right: 3px solid transparent;
+    border-bottom: 3px solid transparent;
     margin-right: 3px;
     transition: .3s;
+    @media(min-width: 1024px){
+      padding: 1.5em;
+    }
+    @media(min-width: 600px){
+      padding: 1.25em;
+    }
+    @media(min-width: 400px){
+      padding: .75em;
+    }
     &:first-child{
-      margin-top: 1.5em;
+      margin-top: 0;
+      @media(min-width: 500px){
+        margin-top: 1.5em;
+      }
     }
     &:hover{
-      border-left: 3px solid $color-primary-green;
+
+      border-top: 3px solid transparent;
+      border-right: 3px solid transparent;
+      border-left: 3px solid transparent;
+      border-bottom: 3px solid $color-primary-green;
+      @media(min-width: 500px){
+        border-bottom: 3px solid transparent;
+        border-left: 3px solid $color-primary-green;
+      }
     }
+  } //end div
+  @media(min-width: 500px){
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
   }
+
 }
 
 .icon{
@@ -154,18 +220,27 @@ body{
 
 .main-header{
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
+  @media(min-width: 500px){
+    flex-direction: row;
+  }
 }
 
 .search-wrapper {
-  width: 85%;
   background-color: $color-offWhite;
   display: flex;
-  justify-content: flex-end;
-  border: 1px solid $color-grey-light;
-  border-top: none;
   padding: .75em;
   padding-right: 1.25em;
+  width: 100%;
+  border: 1px solid $color-grey-light;
+  justify-content: center;
+  @media(min-width: 500px){
+    justify-content: flex-end;
+    border: 1px solid $color-grey-light;
+    border-top: none;
+    width: 85%;
+  }
 }
 
 .search-bar {
@@ -174,21 +249,36 @@ body{
   border:none;
   border: 1px solid $color-grey-light;
   background-color: white;
-  width: 40%;
+  width: 90%;
+  @media(min-width: 500px){
+    width: 40%;
+  }
 }
 
 .tab-name {
-  width: 15%;
+
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: $font-heading;
+  padding: .5em;
+  font-size: 1.25em;
+  width: auto;
+  @media (min-width: 768px){
+    padding: 1em;
+    font-size: auto;
+    width: 18%;
+  }
 }
 
 .alert-bar{
-  width: 100%;
-  padding: 1.5em;
+  width: 98%;
+  margin-right:auto;
+  padding: .5em;
   box-sizing: border-box;
+  @media(min-width: 768px){
+    padding: 1.5em;
+  }
 }
 
 #alert-message{
@@ -196,11 +286,16 @@ body{
   flex-direction: column;
   width: 100%;
   min-height: 2vh;
+  .alert-general{
+    background-color: $color-primary-purple;
+  }
+  .alert-success{
+    background-color: $color-primary-green;
+  }
   .alert-text{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    background-color: $color-primary-purple;
     border-radius: 5px;
     color: $color-offWhite;
     padding: .75em;
@@ -212,6 +307,10 @@ body{
     p,
     .alert-clear{
       margin: 0;
+      font-size: .9em;
+      @media(min-width: 600px){
+        font-size: 1em;
+      }
     } //end p, .alert-clear
   } //end div
 } //  end alert message
@@ -219,32 +318,65 @@ body{
 
 .traffic-overview-container{
   border-bottom: 1px solid $color-grey-light;
-  padding: 2em 1.5em;
+  flex-direction: column;
+  padding: 5px;
   .traffic-overview-header{
     display:flex;
+    flex-direction: column;
     justify-content: space-between;
-    padding-bottom: 1.25em;
+    padding: .25em 0;
     div {
       display: flex;
       justify-content: space-around;
       align-items: center;
       h4{
-        margin:0 .75em;
-        padding: .5em 1em;
+        padding: .5em;
+        margin: 0 .25em;
         border-radius: 20px;
         transition: .5s;
+          @media(min-width: 768px){
+            margin:0 .75em;
+            padding: .5em 1em;
+          }
+
         &:hover {
           background-color: $color-primary-green;
           color: $color-offWhite;
         }
-      }
+      } // end h4
+    } //end div
+    @media(min-width: 768px){
+      padding: 1.25em;
     }
-  }
+    @media(min-width: 600px){
+       padding-bottom: 1.25em;
+    }
+    @media(min-width: 500px){
+      flex-direction: row;
+      padding: .5em;
+    }
+  } //end traffic overview header
   .traffic-overview-graph{
     margin: auto;
     position: relative;
     width: 100%;
-    height: 400px;
+    height: 250px;
+    @media(min-width: 600px){
+      height: 300px;
+    }
+    @media(min-width: 768px){
+      height: 350px;
+    }
+    @media(min-width: 1024px){
+      height: 400px;
+    }
+    @media(min-width: 1400px){
+      height: 450px;
+    }
+  }
+  @media(min-width: 500px){
+    padding: 2em 1.5em;
+    flex-direction: row;
   }
 }
 
@@ -257,39 +389,59 @@ body{
   display: flex;
   border-collapse: collapse;
   border-bottom: 1px solid $color-grey-light;
+  flex-direction: column;
   div{
     h3{
       padding-bottom: 1em;
     }
-    width: 50%;
-    padding: 2em;
+    width: 100%;
+    padding: 5px;
     &:nth-of-type(1){
-      border-right: 1px solid $color-grey-light;
+      border-right:none;
+      border-bottom: 1px solid $color-grey-light;
     }
+    @media(min-width: 768px){
+      padding: 2em;
+      width: 50%;
+      &:nth-of-type(1){
+        border: none;
+        border-right: 1px solid $color-grey-light;
+      }
+    }
+    @media(min-width: 500px){
+      padding: 1em;
+    }
+  } //end of div
+  @media(min-width: 768px){
+    flex-direction: row;
   }
 }
 
 .social-stats{
+
   padding: 1.5em;
   padding-bottom: 5em;
   .social-widget-container{
     display: flex;
     flex-wrap: wrap;
-    margin-top: 2em;
+  }
+  @media(min-width: 500px){
+    padding: 1.5em 5px;
   }
 }
 
 .social-widget{
   border: 1px solid $color-grey-light;
   border-radius: 3px;
-  padding-right: 2em;
-  height: 12vh;
   background-color: $color-offWhite;
   margin: auto;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  min-width: 275px;
+
+  margin-top: 2em;
+  padding: .5em;
+  height: auto;
   div:first-child{
     width: 75px;
     height: 75px;
@@ -314,8 +466,10 @@ body{
       font-size: 2.25em;
 
     }
+  } //  end div:last-child
+  @media(min-width: 1024px){
+    min-width: 275px;
   }
-
 }
 
 .social-icon{
@@ -327,14 +481,25 @@ body{
 
 .memberTools{
   display: grid;
-  grid-template-columns: 50% 50%;
-  grid-template-rows: auto auto;
+  min-width: 0;
+  min-height: 0;
+  grid-template-columns: 100%;
+  grid-template-rows: auto;
   margin-bottom: 10vh;
   & > div{
-    border: 1px solid $color-grey-light;
+    border-top: 1px solid $color-grey-light;
     border-bottom: none;
-    padding: 1.5em;
+    padding: 1em 5px;
     margin-left: -1px;
+    @media(min-width: 500px){
+      padding: 1.5em;
+      border: 1px solid $color-grey-light;
+      border-bottom: none;
+    }
+  }
+  @media(min-width: 768px){
+    grid-template-columns: 50% 50%;
+    grid-template-rows: auto auto;
   }
 }
 
@@ -344,10 +509,12 @@ hr{
 
 .info{
   display: flex;
-  flex-direction: row;
+
   align-items: center;
-  padding-bottom: 1em;
-  padding-top: 1em;
+  padding: 5px;
+  margin: auto;
+  flex-direction: column;
+  text-align: center;
   img{
     height: 3em;
     width: 3em;
@@ -371,7 +538,19 @@ hr{
     color: $color-primary-blue;
   }
   p{
-    margin-left: auto;
+
+    @media(min-width: 1024px){
+      padding: inherit;
+      padding-bottom: 1em;
+      padding-top: 1em;
+    }
+    @media(min-width: 500px){
+      margin-left: auto;
+    }
+  } // end paragraph
+  @media(min-width: 400px){
+    flex-direction: row;
+    text-align: inherit;
   }
 }
 
@@ -434,17 +613,20 @@ hr{
 }
 
 .timezone{
-  background-color: $color-offWhite;
-  border: 1px solid $color-grey-light;
-  padding: .75em;
+  //background-color: $color-offWhite;
+//  border: 1px solid $color-grey-light;
+  padding: 5px;
   border-radius: 3px;
   font-size: .9em;
   margin-top: 4em;
-  div{
     width: 100%;
     display: flex;
     justify-content: space-between;
-  }
+    @media (min-width: 500px){
+      padding: .75em;
+    }
+  
+
 }
 
 .settings-buttons{
@@ -472,7 +654,7 @@ hr{
 
 .toggle-switch{
   width: 65px;
-  height: 20px;
+  height: 23px;
   padding: 3px;
   display: flex;
   justify-content: space-between;
@@ -486,8 +668,8 @@ hr{
   }
   .toggle-button{
     border: 1px solid red;
-    width: 20px;
-    height: 20px;
+    width: 17px;
+    height: 17px;
     border-radius: 50%;
     background-color: $color-offWhite;
     border: 1px solid $color-grey-light;
