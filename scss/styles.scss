@@ -8,7 +8,7 @@ $color-secondary-blue: #4d4c72;
 
 $color-offWhite: #fbfbfb;
 $color-grey-light: #CCCECF;
-
+$color-dark-red: #972a27;
 
 
 //font variables
@@ -19,6 +19,10 @@ $font-heading: 1.4em;
 $layout-header: header;
 $layout-nav: nav;
 $layout-main: main;
+
+*:focus{
+  outline: 2px solid $color-secondary-blue;
+}
 
 body{
   font-family: $font-stack-primary;
@@ -72,6 +76,10 @@ body{
       background-color: white;
       box-shadow: 1px 10px 20px rgba(0,0,0,.3);
       display: none;
+      .dropdown-header{
+        background-color: $color-secondary-blue;
+        color: $color-offWhite;
+      }
       .dropdown-item{
         border: none;
         padding: 10px 5px;
@@ -80,8 +88,18 @@ body{
         white-space: nowrap;
         display: flex;
         justify-content: space-between;
+        transition: .25s;
+        &:not(:first-child):hover {
+          background-color: darken($color-offWhite, 10%);
+          cursor: pointer;
+        }
         .notification-clear{
           margin-left: 1em;
+          padding-right: .5em;
+          transition: .15s;
+          &:hover {
+            text-decoration: underline;
+          }
         }
       }
 
@@ -360,6 +378,25 @@ hr{
 .message-container{
   display: flex;
   flex-direction: column;
+  #searchList{
+    position: absolute;
+    background-color: white;
+    margin: .7em .5em;
+    border-radius: 3px;
+    transform: translateY(2.5em);
+    font-size: .9em;
+    box-shadow: 1px 10px 20px rgba(0,0,0,.3);
+    .listedUser {
+      text-transform: capitalize;
+      padding: .5em 1em;
+      margin: 0;
+      &:hover{
+        background-color: $color-secondary-blue;
+        color: white;
+
+      }
+    }
+  }
   input,
   textarea{
     padding: .75em;
@@ -368,6 +405,7 @@ hr{
     border: 1px solid $color-grey-light;
     background-color: $color-offWhite;
     font-size: .9em;
+
   }
   textarea{
     height: 8em;

@@ -12,41 +12,102 @@ const toggleButton = document.getElementsByClassName('toggle-button');
 const liveNotification = document.querySelector('.liveNotification');
 const notificationBell = document.querySelector('.bell');
 const dropDown = document.querySelector('.dropdown-container');
+const notificationClear = document.getElementsByClassName('notification-clear');
+const dropDownHeader = document.querySelector(".dropdown-header");
+const search = document.getElementById("search");
+const userName = document.getElementsByClassName("user-name");
+const searchList = document.getElementById("searchList");
+const listedUser = document.getElementsByClassName('listedUser');
+
+let userArray = [];
 
 let data = [ 0,500 ,1000, 1500, 1250, 1750, 2000, 1500, 2000, 2500, 2250];
 let labels = ['16-22', '23-29', '30-5', '6-12', '13-19', '20-26', '27-3', '4-10', '11-17', '18-24', '25-31'];
 
+let notificationText = ["This is a new notification.",
+                        "You have 6 unread messages.",
+                        "You have 3 new followers.",
+                        "Your password expires in 7 days."];
 
-notificationBell.addEventListener("click", () => {
-  if(dropDown.style.display !== "block"){
-    dropDown.style.display = "block";
-    let width = dropDown.offsetWidth -  notificationBell.offsetWidth;
-    let translate = "translate(-" + width + "px, 40px)";
-    dropDown.style.transform = translate;
-    dropDown.style.transition = "transform .25s";
-  }
-});
-
-document.addEventListener("click", (e) => {
-  console.log();
-  if (dropDown.style.display === "block" &&
-  !(e.target.className.includes("bell") ||
-  e.target.parentElement.className.includes("dropdown-container") ||
-  e.target.className.includes("notification-clear"))) {
-    dropDown.style.display = "none";
-    dropDown.style.transform = "translate(0, 0)";
-  }
-});
-
+///////////////////////////////
+//Instantiate listeners, constructors
 document.addEventListener("DOMContentLoaded", () => {
   displayAlert();
   addAlertListener();
   addTrafficTimeListener();
   toggleSwitch();
+  addNotification(notificationText);
+  notificationListener();
+  globalListener();
+  deleteNotification();
+  addSearchListener(userArray);
+  createUserArray(userName);
 }); // end DOMContentLoaded
 
 
+//global listener to click off notifications
+function globalListener(){
+  document.addEventListener("click", (e) => {
+    console.log();
+    if (dropDown.style.display === "block" &&
+    !(e.target.className.includes("bell") ||
+    e.target.parentElement.className.includes("dropdown-container") ||
+    e.target.className.includes("notification-clear"))) {
+      dropDown.style.display = "none";
+      dropDown.style.transform = "translate(0, 0)";
+    }
+  });
+}
 
+//add eventlistener to delete Notifications
+function deleteNotification(){
+  for(let i = 0; i < notificationClear.length; i++){
+    notificationClear[i].addEventListener("click", (e) => {
+      let notification = e.target.parentElement;
+      dropDown.removeChild(notification);
+      sizeNotificationContainer();
+      notificationHeader();
+    });
+  }
+}
+
+//add eventlistener to notification bell
+function notificationListener() {
+  notificationBell.addEventListener("click", () => {
+    if(dropDown.style.display !== "block"){
+      dropDown.style.display = "block";
+      sizeNotificationContainer();
+    }
+  });
+}
+
+//figure notification container size
+function sizeNotificationContainer(){
+  let width = dropDown.offsetWidth -  notificationBell.offsetWidth;
+  let translate = "translate(-" + width + "px, 40px)";
+  dropDown.style.transform = translate;
+  dropDown.style.transition = "transform .25s";
+}
+
+//adjust notificaiton header text
+function notificationHeader(){
+  let num = dropDown.children.length - 1;
+  dropDownHeader.textContent = "You have " + num + " notifications";
+}
+
+//add notifications to dropdown
+function addNotification(messages) {
+  messages.forEach((message) => {
+    let notification = document.createElement("div");
+    notification.className = "dropdown-item";
+    notification.innerHTML = message +
+                            "<i class='notification-clear fa fa-times'></i>";
+    dropDown.appendChild(notification);
+    notificationHeader();
+  });
+}
+
+//display purple alert bar
 function displayAlert(){
   let message = document.createElement("div");
   message.className = "alert-text";
@@ -56,6 +117,7 @@ function displayAlert(){
   alertMessage.appendChild(message);
 }
 
+//add listener to remove alert bar
 function addAlertListener(){
   for(let i = 0; i < clearAlert.length; i++){
     clearAlert[i].addEventListener("click", (event) => {
@@ -126,6 +188,7 @@ function addAlertListener(){
   }); //End Traffic Overview
 //}
 
+//add new data to chart
 function addData(chart, label, data) {
     let newDataLength = data.length;
     for(let i = 0; i < newDataLength; i++){
@@ -135,6 +198,7 @@ function addData(chart, label, data) {
     chart.update();
 }
 
+//remove data from chart
 function removeData(chart) {
     let dataLength = chart.data.datasets[0].data.length;
     for(let i = 0; i < dataLength; i++){
@@ -268,32 +332,64 @@ var mobileUsersChart = new Chart(mobileUsers, {
     } // end options
 }); // end mobile users
 
+//Toggle switches
 function toggleSwitch() {
-  console.log(toggleContainer);
 
   for(let i = 0; i < toggleContainer.length; i++){
     toggleContainer[i].addEventListener("click", (e) => {
-
-    if(toggleText[i].textContent === "On"){
-      console.log(e.target);
-      toggleButton[i].style.transform = "translateX(-43px)";
-      toggleButton[i].style.transition = ".25s";
-      toggleText[i].textContent = "Off";
-      toggleText[i].style.transform = "translateX(25px)";
-      toggleText[i].style.transition = ".25s";
-      toggleContainer[i].style.backgroundColor = "#a8aad7";
-      toggleContainer[i].style.transition = ".25s";
-
-    }
-    else if (toggleText[i].textContent === "Off"){
-      toggleButton[i].style.transform = "translateX(0)";
-      toggleButton[i].style.transition = ".25s";
-      toggleText[i].textContent = "On";
-      toggleText[i].style.transform = "translateX(0)";
-      toggleText[i].style.transition = ".25s";
-      toggleContainer[i].style.backgroundColor = "#7377bf";
-      toggleContainer[i].style.transition = ".25s";
-    }
+      if(toggleText[i].textContent === "On"){
+        toggleButton[i].style.transform = "translateX(-43px)";
+        toggleButton[i].style.transition = ".25s";
+        toggleText[i].textContent = "Off";
+        toggleText[i].style.transform = "translateX(25px)";
+        toggleText[i].style.transition = ".25s";
+        toggleContainer[i].style.backgroundColor = "#a8aad7";
+        toggleContainer[i].style.transition = ".25s";
+      }
+      else if (toggleText[i].textContent === "Off"){
+        toggleButton[i].style.transform = "translateX(0)";
+        toggleButton[i].style.transition = ".25s";
+        toggleText[i].textContent = "On";
+        toggleText[i].style.transform = "translateX(0)";
+        toggleText[i].style.transition = ".25s";
+        toggleContainer[i].style.backgroundColor = "#7377bf";
+        toggleContainer[i].style.transition = ".25s";
+      }
     });
+  }
+}
+
+//add listener to search bar
+function addSearchListener(users){
+  search.addEventListener("keyup", function() {
+    //clear existing search results
+    while(searchList.firstChild){
+      searchList.removeChild(searchList.firstChild);
+    }
+
+	  let searchString = search.value.toLowerCase();
+
+    users.forEach((user) => {
+      let userString = user.toLowerCase();
+      if(userString.includes(searchString) && searchString.length > 0){
+        //regular expression to convert all instances in newString
+        let regEx = new RegExp(searchString, "g");
+        newString = "<strong>" + searchString + "</strong>";
+        let highlightedUser = userString.replace(regEx, newString);
+        let listedUser = document.createElement("p");
+        listedUser.className = "listedUser";
+        listedUser.innerHTML = highlightedUser;
+        searchList.appendChild(listedUser);
+
+      }
+    }); //end forEach
+  }); //end listener
+} //end function
+
+//create array of users
+function createUserArray(users){
+  for(let i = 0; i < users.length; i++){
+    let user = users[i].textContent;
+    userArray.push(user);
   }
 }

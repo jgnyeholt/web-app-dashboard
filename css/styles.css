@@ -1,3 +1,7 @@
+*:focus {
+  outline: 2px solid #4d4c72;
+}
+
 body {
   font-family: "Raleway", sans-serif;
   box-sizing: border-box;
@@ -51,6 +55,10 @@ body {
   box-shadow: 1px 10px 20px rgba(0, 0, 0, 0.3);
   display: none;
 }
+.header section .dropdown-container .dropdown-header {
+  background-color: #4d4c72;
+  color: #fbfbfb;
+}
 .header section .dropdown-container .dropdown-item {
   border: none;
   padding: 10px 5px;
@@ -59,9 +67,19 @@ body {
   white-space: nowrap;
   display: flex;
   justify-content: space-between;
+  transition: 0.25s;
+}
+.header section .dropdown-container .dropdown-item:not(:first-child):hover {
+  background-color: #e2e2e2;
+  cursor: pointer;
 }
 .header section .dropdown-container .dropdown-item .notification-clear {
   margin-left: 1em;
+  padding-right: 0.5em;
+  transition: 0.15s;
+}
+.header section .dropdown-container .dropdown-item .notification-clear:hover {
+  text-decoration: underline;
 }
 .header section .member-header {
   border-left: 1px solid rgba(0, 0, 0, 0.2);
@@ -327,6 +345,24 @@ hr {
 .message-container {
   display: flex;
   flex-direction: column;
+}
+.message-container #searchList {
+  position: absolute;
+  background-color: white;
+  margin: 0.7em 0.5em;
+  border-radius: 3px;
+  transform: translateY(2.5em);
+  font-size: 0.9em;
+  box-shadow: 1px 10px 20px rgba(0, 0, 0, 0.3);
+}
+.message-container #searchList .listedUser {
+  text-transform: capitalize;
+  padding: 0.5em 1em;
+  margin: 0;
+}
+.message-container #searchList .listedUser:hover {
+  background-color: #4d4c72;
+  color: white;
 }
 .message-container input,
 .message-container textarea {

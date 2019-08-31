@@ -114,14 +114,12 @@
           <i class="bell fa fa-bell-o" aria-hidden="true"></i>
           <span class="liveNotification"> </span>
           <div class="dropdown-container">
-            <div class="dropdown-item">You have no notifications</div>
-            <div class="dropdown-item">You have 6 unread messages <i class='notification-clear fa fa-times'></i></div>
-            <div class="dropdown-item">You have 3 new followers <i class='notification-clear fa fa-times'></i></div>
-            <div class="dropdown-item">Your password expires in 7 days this ir a really really lon \g notificaion <i class='notification-clear fa fa-times'></i></div>
+            <div class="dropdown-item dropdown-header">You have no notifications</div>
+            <!-- notification items from JS -->
           </div>
           <div class="member-header">
             <img src="images/member-4.jpg" />
-            <p>Josh Sullivan</p>
+            <p class="user-name">Josh Sullivan</p>
           </div>
         </section>
       </header>
@@ -238,7 +236,7 @@
             <div class="info">
               <img src="images/member-1.jpg"/>
               <div>
-                <h6>Victoria Chambers</h6>
+                <h6 class="user-name">Victoria Chambers</h6>
                 <a href="#">victoria.chambers80@example.com</a>
               </div>
               <p>10/15/15</p>
@@ -248,7 +246,7 @@
             <div class="info">
               <img src="images/member-2.jpg"/>
               <div>
-                <h6>Dale Byrd</h6>
+                <h6 class="user-name">Dale Byrd</h6>
                 <a href="#">dale.byrd51@example.com</a>
               </div>
               <p>10/15/15</p>
@@ -258,7 +256,7 @@
             <div class="info">
               <img src="images/member-3.jpg"/>
               <div>
-                <h6>Dawn Wood</h6>
+                <h6 class="user-name">Dawn Wood</h6>
                 <a href="#">dawn.wood16@example.com</a>
               </div>
               <p>10/15/15</p>
@@ -268,7 +266,7 @@
             <div class="info">
               <img src="images/member-4.jpg"/>
               <div>
-                <h6>Dan Oliver</h6>
+                <h6 class="user-name">Dan Oliver</h6>
                 <a href="#">dan.oliver81@example.com</a>
               </div>
               <p>10/15/15</p>
@@ -324,12 +322,14 @@
           <!-- Message User -->
           <div>
             <h3>MESSAGE USER</h3>
-            <div class="message-container">
-              <input placeholder="Search for User" />
-              <textarea placeholder="Message for User"></textarea>
-              <input type="submit" value="SEND">
-            </div>
-
+              <form class="message-container">
+                <input type="text" id="search" placeholder="Search for User" required autocomplete="off"/>
+                <div id="searchList" >
+                  <!-- search provided in JS -->
+                </div>
+                <textarea placeholder="Message for User" required></textarea>
+                <input type="submit" value="SEND">
+              </form>
           </div>
           <!-- Settings -->
           <div>
@@ -356,14 +356,9 @@
           </div> <!-- End settings -->
 
         </section>
-
-
-
-
       </main>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
     <script src="js/site.js"></script>
-
   </body>
 </html>
