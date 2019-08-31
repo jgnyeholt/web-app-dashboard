@@ -1,26 +1,33 @@
+//Alert variables
 const alertMessage = document.getElementById("alert-message");
-const alertMessageText = " Here is the medium length sentance long alert popup up purple bar.";
+let alertMessageText = "<p><strong>Alert: </strong>Here is the medium length sentence long alert popup up purple bar.</p><i class='alert-clear fa fa-times'></i>";
 const alertText = document.getElementsByClassName("alert-text");
 const clearAlert = document.getElementsByClassName("alert-clear");
+//chart variables
 const trafficOverview = document.getElementById('TrafficOverview').getContext('2d');
 const trafficOverviewTime = document.getElementsByClassName("traffic-time-context");
 const trafficSummary = document.getElementById('TrafficSummary').getContext('2d');
 const mobileUsers = document.getElementById('MobileUsers').getContext('2d');
+//settings variables
 const toggleContainer = document.getElementsByClassName('toggle-switch');
 const toggleText = document.getElementsByClassName('toggle-text');
 const toggleButton = document.getElementsByClassName('toggle-button');
+//noitification variables
 const liveNotification = document.querySelector('.liveNotification');
 const notificationBell = document.querySelector('.bell');
 const dropDown = document.querySelector('.dropdown-container');
 const notificationClear = document.getElementsByClassName('notification-clear');
 const dropDownHeader = document.querySelector(".dropdown-header");
+//search variables
 const search = document.getElementById("search");
 const userName = document.getElementsByClassName("user-name");
 const searchList = document.getElementById("searchList");
 const listedUser = document.getElementsByClassName('listedUser');
+//form variables
+const formSubmit = document.getElementById("form");
+const messageText = document.getElementById("message-text");
 
-let userArray = [];
-
+let count = -1;
 let data = [ 0,500 ,1000, 1500, 1250, 1750, 2000, 1500, 2000, 2500, 2250];
 let labels = ['16-22', '23-29', '30-5', '6-12', '13-19', '20-26', '27-3', '4-10', '11-17', '18-24', '25-31'];
 
@@ -30,35 +37,108 @@ let notificationText = ["This is a new notification.",
                         "Your password expires in 7 days."];
 
 ///////////////////////////////
+
+//File performance
+// var t0 = performance.now();
+// var result = instantiatePage();
+// var t1 = performance.now();
+// console.log('Took', (t1 - t0).toFixed(4), 'milliseconds to generate:', result);
+
+instantiatePage();
+
 //Instantiate listeners, constructors
-document.addEventListener("DOMContentLoaded", () => {
-  displayAlert();
-  addAlertListener();
-  addTrafficTimeListener();
-  toggleSwitch();
-  addNotification(notificationText);
-  notificationListener();
-  globalListener();
-  deleteNotification();
-  addSearchListener(userArray);
-  createUserArray(userName);
-}); // end DOMContentLoaded
-
-
+function instantiatePage(){
+  document.addEventListener("DOMContentLoaded", () => {
+    displayAlert(alertMessageText, 'general');
+    addAlertListener();
+    addTrafficTimeListener();
+    toggleSwitch();
+    addNotification(notificationText);
+    notificationListener();
+    globalClickListener();
+    deleteNotification();
+    globalKeyListener();
+    formListener();
+    setToggle();
+    //create array from user elements
+    let userArray = createArray(userName);
+    addSearchListener(userArray);
+  }); // end DOMContentLoaded
+}
+////////////////////////////////////////////////////////////////////
 //global listener to click off notifications
-function globalListener(){
+function globalClickListener(){
   document.addEventListener("click", (e) => {
-    console.log();
     if (dropDown.style.display === "block" &&
     !(e.target.className.includes("bell") ||
     e.target.parentElement.className.includes("dropdown-container") ||
     e.target.className.includes("notification-clear"))) {
       dropDown.style.display = "none";
       dropDown.style.transform = "translate(0, 0)";
+    } // end if
+
+    //remove search with click
+    if(searchList.firstChild){
+      clearSearch();
     }
-  });
+
+  }); //end eventlistener
+} //end function
+
+function globalKeyListener(){
+  search.addEventListener("keyup", (e) => {
+    if(!search.value){
+      count = -1;
+    }
+    //if user has typed and there are results
+    if(search.value && searchList.children){
+      search.style.textTransform = "capitalize";
+      //up arrow key
+        if(e.key === 'ArrowUp'){
+          if(count === -1){
+            count = -1;
+          }
+          else if(count === 0){
+            count = 0;
+          }
+          else{
+            count -= 1;
+          }
+          if(count > -1){
+            listedUser[count].style.outline = '2px solid #4d4c72';
+            if(listedUser[count].nextSibling){
+              listedUser[count].nextSibling.style.outline = 'none';
+            }
+            if(listedUser[count].previousSibling){
+              listedUser[count].previousSibling.style.outline = 'none';
+            }
+            search.value = listedUser[count].textContent;
+          }
+        }
+        //down arrow key
+        else if(e.key === 'ArrowDown'){
+          if(count >= (listedUser.length - 1)){
+            count = listedUser.length - 1;
+          }
+          else {
+            count++;
+          }
+          listedUser[count].style.outline = '2px solid #4d4c72';
+          if(listedUser[count].nextSibling){
+            listedUser[count].nextSibling.style.outline = 'none';
+          }
+          if(listedUser[count].previousSibling){
+            listedUser[count].previousSibling.style.outline = 'none';
+          }
+          search.value = listedUser[count].textContent;
+        } //end else if
+
+    } // if
+  }); // end listener
 }
 
+////////////////////////////////////////////////////////////////////
+//NOTIFICATIONS
 //add eventlistener to delete Notifications
 function deleteNotification(){
   for(let i = 0; i < notificationClear.length; i++){
@@ -83,16 +163,35 @@ function notificationListener() {
 
 //figure notification container size
 function sizeNotificationContainer(){
-  let width = dropDown.offsetWidth -  notificationBell.offsetWidth;
-  let translate = "translate(-" + width + "px, 40px)";
-  dropDown.style.transform = translate;
-  dropDown.style.transition = "transform .25s";
+  let width;
+  let translate;
+
+  if(window.innerWidth < 400){
+    dropDown.style.left = "5px";
+    dropDown.style.transform = "translateY(40px)";
+  } else if (window.innerWidth < 500){
+    width = (dropDown.offsetWidth -  notificationBell.offsetWidth) / 2;
+    translate = "translate(-" + width + "px, 40px)";
+    dropDown.style.transform = translate;
+    dropDown.style.transition = "transform .25s";
+  } else {
+    width = dropDown.offsetWidth -  notificationBell.offsetWidth;
+    translate = "translate(-" + width + "px, 40px)";
+    dropDown.style.transform = translate;
+    dropDown.style.transition = "transform .25s";
+  }
 }
 
 //adjust notificaiton header text
 function notificationHeader(){
   let num = dropDown.children.length - 1;
   dropDownHeader.textContent = "You have " + num + " notifications";
+  if(num > 0){
+    liveNotification.style.opacity = "1";
+  }
+  if(num === 0){
+    liveNotification.style.opacity = "0";
+  }
 }
 
 //add notifications to dropdown
@@ -106,16 +205,17 @@ function addNotification(messages) {
     notificationHeader();
   });
 }
-
+///////////////////////////////////////////////////////////
+//Alert Bar
 //display purple alert bar
-function displayAlert(){
+function displayAlert(text, type){
   let message = document.createElement("div");
-  message.className = "alert-text";
-  message.innerHTML = "<p><strong>Alert </strong>" +
-                      alertMessageText +
-                      "</p><i class='alert-clear fa fa-times' aria-hidden='true'></i>";
+  message.classList.add("alert-text");
+  message.classList.add("alert-" + type);
+  message.innerHTML = text;
   alertMessage.appendChild(message);
 }
+
 
 //add listener to remove alert bar
 function addAlertListener(){
@@ -332,64 +432,117 @@ var mobileUsersChart = new Chart(mobileUsers, {
     } // end options
 }); // end mobile users
 
+///////////////////////////////////////////////////////////////////////////
 //Toggle switches
 function toggleSwitch() {
-
   for(let i = 0; i < toggleContainer.length; i++){
     toggleContainer[i].addEventListener("click", (e) => {
       if(toggleText[i].textContent === "On"){
-        toggleButton[i].style.transform = "translateX(-43px)";
-        toggleButton[i].style.transition = ".25s";
-        toggleText[i].textContent = "Off";
-        toggleText[i].style.transform = "translateX(25px)";
-        toggleText[i].style.transition = ".25s";
-        toggleContainer[i].style.backgroundColor = "#a8aad7";
-        toggleContainer[i].style.transition = ".25s";
+        toggleOff(i);
+        localStorage.setItem('toggle' + i, 'off');
       }
       else if (toggleText[i].textContent === "Off"){
-        toggleButton[i].style.transform = "translateX(0)";
-        toggleButton[i].style.transition = ".25s";
-        toggleText[i].textContent = "On";
-        toggleText[i].style.transform = "translateX(0)";
-        toggleText[i].style.transition = ".25s";
-        toggleContainer[i].style.backgroundColor = "#7377bf";
-        toggleContainer[i].style.transition = ".25s";
+        toggleOn(i);
+        localStorage.setItem('toggle' + i, 'on');
       }
     });
   }
 }
 
+function toggleOff(i){
+  toggleButton[i].style.transform = "translateX(-43px)";
+  toggleButton[i].style.transition = ".25s";
+  toggleText[i].textContent = "Off";
+  toggleText[i].style.transform = "translateX(25px)";
+  toggleText[i].style.transition = ".25s";
+  toggleContainer[i].style.backgroundColor = "#a8aad7";
+  toggleContainer[i].style.transition = ".25s";
+}
+
+function toggleOn(i){
+  toggleButton[i].style.transform = "translateX(0)";
+  toggleButton[i].style.transition = ".25s";
+  toggleText[i].textContent = "On";
+  toggleText[i].style.transform = "translateX(0)";
+  toggleText[i].style.transition = ".25s";
+  toggleContainer[i].style.backgroundColor = "#7377bf";
+  toggleContainer[i].style.transition = ".25s";
+}
+
+function setToggle(){
+  for(let i = 0; i < toggleContainer.length; i++){
+    let togglePosition = localStorage.getItem("toggle" + i);
+    if(togglePosition === "on"){
+      toggleOn(i);
+    }
+    else if(togglePosition === "off"){
+      toggleOff(i);
+    }
+  }
+}
+///////////////////////////////////////////////////////////////
+//form
+function formListener(){
+  formSubmit.addEventListener('submit', (e) => {
+    e.preventDefault();
+    submitForm();
+  });
+}
+
+function submitForm(){
+  let user = search.value;
+  alertMessageText = "<p><strong>Alert: </strong>Message sent successfully to <span class='capitalize'>" + user + "</span>.</p><i class='alert-clear fa fa-times'></i>";
+  displayAlert(alertMessageText, 'success');
+  addAlertListener();
+  alertMessage.scrollIntoView({behavior: "smooth", block: "start" });
+  search.value = "";
+  messageText.value = "";
+}
+
+
+//Search/////////////////////////////////////////////////////////////////
 //add listener to search bar
 function addSearchListener(users){
-  search.addEventListener("keyup", function() {
+  search.addEventListener("keyup", function(e) {
     //clear existing search results
-    while(searchList.firstChild){
-      searchList.removeChild(searchList.firstChild);
-    }
-
+    if(e.keyCode !== 38 && e.keyCode !== 40 && e.keyCode !== 9){
+    clearSearch();
 	  let searchString = search.value.toLowerCase();
-
     users.forEach((user) => {
       let userString = user.toLowerCase();
       if(userString.includes(searchString) && searchString.length > 0){
         //regular expression to convert all instances in newString
         let regEx = new RegExp(searchString, "g");
-        newString = "<strong>" + searchString + "</strong>";
+        let newString = "<strong>" + searchString + "</strong>";
         let highlightedUser = userString.replace(regEx, newString);
         let listedUser = document.createElement("p");
+      //  listedUser.tabIndex = 0;
         listedUser.className = "listedUser";
         listedUser.innerHTML = highlightedUser;
         searchList.appendChild(listedUser);
 
-      }
+        listedUser.addEventListener("click", (e) =>{
+          search.value = listedUser.textContent;
+          search.style.textTransform = "capitalize";
+        });
+      } //end if statement
     }); //end forEach
+  }
   }); //end listener
 } //end function
 
-//create array of users
-function createUserArray(users){
-  for(let i = 0; i < users.length; i++){
-    let user = users[i].textContent;
-    userArray.push(user);
+function clearSearch(){
+  while(searchList.firstChild){
+    searchList.removeChild(searchList.firstChild);
   }
+}
+
+//create array
+function createArray(list){
+  let array = [];
+  for(let i = 0; i < list.length; i++){
+    let item = list[i].textContent;
+    array.push(item);
+  }
+  return array;
 }
