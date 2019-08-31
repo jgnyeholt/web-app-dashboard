@@ -2,6 +2,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Your App</title>
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/styles.css">
@@ -10,6 +11,7 @@
 
   </head>
 
+    <body>
   <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="display:none;">
     <!-- Notification Bell Icon -->
     <symbol id="notificationIcon">
@@ -105,7 +107,6 @@
 
   </svg>
 
-  <body>
     <div class="container">
       <!-- header -->
       <header class="header">
@@ -118,7 +119,7 @@
             <!-- notification items from JS -->
           </div>
           <div class="member-header">
-            <img src="images/member-4.jpg" />
+            <img src="images/member-4.jpg" alt="Josh Sullivan pic" />
             <p class="user-name">Josh Sullivan</p>
           </div>
         </section>
@@ -234,7 +235,7 @@
           <div>
             <h3>NEW MEMBERS</h3>
             <div class="info">
-              <img src="images/member-1.jpg"/>
+              <img src="images/member-1.jpg" alt="Victoria Chambers pic"/>
               <div>
                 <h6 class="user-name">Victoria Chambers</h6>
                 <a href="#">victoria.chambers80@example.com</a>
@@ -244,7 +245,7 @@
             <hr />
 
             <div class="info">
-              <img src="images/member-2.jpg"/>
+              <img src="images/member-2.jpg" alt="Dale Byrd pic"/>
               <div>
                 <h6 class="user-name">Dale Byrd</h6>
                 <a href="#">dale.byrd51@example.com</a>
@@ -254,7 +255,7 @@
             <hr />
 
             <div class="info">
-              <img src="images/member-3.jpg"/>
+              <img src="images/member-3.jpg" alt="Dawn Wood pic"/>
               <div>
                 <h6 class="user-name">Dawn Wood</h6>
                 <a href="#">dawn.wood16@example.com</a>
@@ -264,7 +265,7 @@
             <hr />
 
             <div class="info">
-              <img src="images/member-4.jpg"/>
+              <img src="images/member-4.jpg"  alt="Dan Oliver pic"/>
               <div>
                 <h6 class="user-name">Dan Oliver</h6>
                 <a href="#">dan.oliver81@example.com</a>
@@ -278,7 +279,7 @@
           <div>
             <h3>RECENT ACTIVITY</h3>
             <div class="info">
-              <img src="images/member-1.jpg"/>
+              <img src="images/member-1.jpg" alt="Victoria Chambers pic"/>
               <div>
                 <h6>Victoria Chambers commented on YourApp's SEO Tips</h6>
                 <p>4 hours ago</p>
@@ -288,7 +289,7 @@
             <hr />
 
             <div class="info">
-              <img src="images/member-2.jpg"/>
+              <img src="images/member-2.jpg" alt="Dale Byrd pic"/>
               <div>
                 <h6>Dale Byrd liked the post Facebooks's Changes for 2016</h6>
                 <p>5 hours ago</p>
@@ -298,7 +299,7 @@
             <hr />
 
             <div class="info">
-              <img src="images/member-3.jpg"/>
+              <img src="images/member-3.jpg" alt="Dawn Wood pic"/>
               <div>
                 <h6>Dawn Wood commented on Facebook's Changes for 2016</h6>
                 <p>5 hours ago</p>
@@ -308,7 +309,7 @@
             <hr />
 
             <div class="info">
-              <img src="images/member-4.jpg"/>
+              <img src="images/member-4.jpg" alt="Dan Oliver pic"/>
               <div>
                 <h6>Dan Oliver posted YourApp's SEO Tips</h6>
                 <p>1 day ago</p>
@@ -322,12 +323,12 @@
           <!-- Message User -->
           <div>
             <h3>MESSAGE USER</h3>
-              <form class="message-container">
+              <form id="form" class="message-container">
                 <input type="text" id="search" placeholder="Search for User" required autocomplete="off"/>
                 <div id="searchList" >
                   <!-- search provided in JS -->
                 </div>
-                <textarea placeholder="Message for User" required></textarea>
+                <textarea id="message-text" placeholder="Message for User" required></textarea>
                 <input type="submit" value="SEND">
               </form>
           </div>
@@ -346,8 +347,15 @@
                 <div class="toggle-text">On</div> <div class="toggle-button"></div>
               </div>
             </div>
-            <div class="settings-option timezone">
-                <div>Select Timezone <i class="fa fa-chevron-down" aria-hidden="true"></i></div>
+            <div class="settings-option">
+                <select class="timezone" value="Select a Timezone">
+                  <option>Select a time zone</option>
+                  <option>Eastern Standard Time</option>
+                  <option>Central Standard Time</option>
+                  <option>Mountain Standard Time</option>
+                  <option>Pacific Standard Time</option>
+                </select>
+                <!-- <div>Select Timezone <i class="fa fa-chevron-down" aria-hidden="true"></i></div> -->
             </div>
             <div class="settings-buttons">
               <input type="submit" value="SAVE">
