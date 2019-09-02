@@ -324,12 +324,14 @@
           <div>
             <h3>MESSAGE USER</h3>
               <form id="form" class="message-container">
-                <input type="text" id="search" placeholder="Search for User" required autocomplete="off"/>
+                <input type="text" id="search" placeholder="Search for User" autocomplete="off"/>
+                <span id="userError">This field is required. Please indiciate user.</span>
                 <div id="searchList" >
                   <!-- search provided in JS -->
                 </div>
-                <textarea id="message-text" placeholder="Message for User" required></textarea>
-                <input type="submit" value="SEND">
+                <textarea id="message-text" placeholder="Message for User"></textarea>
+                <span id="messageError">This field is required. Please add a message.</span>
+                <input id="form-submit" type="submit" value="SEND">
               </form>
           </div>
           <!-- Settings -->

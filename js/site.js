@@ -24,8 +24,10 @@ const userName = document.getElementsByClassName("user-name");
 const searchList = document.getElementById("searchList");
 const listedUser = document.getElementsByClassName('listedUser');
 //form variables
-const formSubmit = document.getElementById("form");
+const formSubmit = document.getElementById("form-submit");
 const messageText = document.getElementById("message-text");
+const userError = document.getElementById("userError");
+const messageError = document.getElementById("messageError");
 
 let count = -1;
 let data = [ 0,500 ,1000, 1500, 1250, 1750, 2000, 1500, 2000, 2500, 2250];
@@ -60,6 +62,7 @@ function instantiatePage(){
     globalKeyListener();
     formListener();
     setToggle();
+    addMessageListener();
     //create array from user elements
     let userArray = createArray(userName);
     addSearchListener(userArray);
@@ -483,9 +486,20 @@ function setToggle(){
 ///////////////////////////////////////////////////////////////
 //form
 function formListener(){
-  formSubmit.addEventListener('submit', (e) => {
+  formSubmit.addEventListener('click', (e) => {
     e.preventDefault();
-    submitForm();
+    if(search.value.length === 0){
+      userError.style.display = "inline-block";
+    }
+
+    if(messageText.value.length === 0){
+      messageError.style.display = "inline-block";
+    }
+    if(search.value.length > 0 && messageText.value.length > 0 ){
+      submitForm();
+    }
+
+
   });
 }
 
@@ -495,8 +509,19 @@ function submitForm(){
   displayAlert(alertMessageText, 'success');
   addAlertListener();
   alertMessage.scrollIntoView({behavior: "smooth", block: "start" });
+  messageError.style.display = "none";
+  userError.style.display = "none";
   search.value = "";
   messageText.value = "";
+
+}
+
+function addMessageListener(){
+  messageText.addEventListener("keyup", () =>{
+    if(messageError.style.display === "inline-block" && messageText.value.length > 0){
+      messageError.style.display = "none";
+    }
+  });
 }
 
 
@@ -504,6 +529,9 @@ function submitForm(){
 //add listener to search bar
 function addSearchListener(users){
   search.addEventListener("keyup", function(e) {
+    if(userError.style.display === "inline-block" && search.value.length > 0){
+      userError.style.display = "none";
+    }
     //clear existing search results
     if(e.keyCode !== 38 && e.keyCode !== 40 && e.keyCode !== 9){
     clearSearch();

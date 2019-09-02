@@ -577,6 +577,14 @@ hr {
   }
 }
 
+#messageError,
+#userError {
+  font-size: 0.75em;
+  display: none;
+  color: red;
+  padding: 0 1.5em;
+}
+
 .message-container {
   display: flex;
   flex-direction: column;
